@@ -13,7 +13,7 @@ function storeDetails(event){
         quantity:quantity
     }
     console.log(itemObj)
-    axios.post('https://crudcrud.com/api/618b2dd5595a422ab1a3601274307c82/itemDetails',itemObj)
+    axios.post('https://crudcrud.com/api/ce4d792e5eff4c31bb28133db7044be5/itemDetails',itemObj)
     .then(res=> {
         console.log(res.data)
         showData(res.data)
@@ -21,7 +21,7 @@ function storeDetails(event){
 }
 
 window.addEventListener('DOMContentLoaded',()=>{
-    axios.get('https://crudcrud.com/api/618b2dd5595a422ab1a3601274307c82/itemDetails')
+    axios.get('https://crudcrud.com/api/ce4d792e5eff4c31bb28133db7044be5/itemDetails')
     .then(res=>{
         // console.log(res)
         for(let i=0;i<res.data.length;i++){
@@ -48,19 +48,40 @@ function showData(obj){
     li.appendChild(btn1)
     btn1.addEventListener('click',()=>{
         console.log('quantity updated')
-        axios.get(`https://crudcrud.com/api/618b2dd5595a422ab1a3601274307c82/itemDetails/${obj._id}`)
+        axios.get(`https://crudcrud.com/api/ce4d792e5eff4c31bb28133db7044be5/itemDetails/${obj._id}`)
         .then(res=>{
-            console.log(res.data)
-            let updatedQuantity=res.data.quantity-1
-            axios.put(`https://crudcrud.com/api/618b2dd5595a422ab1a3601274307c82/itemDetails/${obj._id}`,{item:res.data.item, description:res.data.description, price:res.data.price, quantity:updatedQuantity})
-            .then(updatedres=>{
-                
-                console.log(updatedres)
-                obj=updatedres
-                console.log(obj)
-            })
+            let currItem=res.data
+            let updatedQuantity=currItem.quantity-1
+            currItem.quantity=updatedQuantity
+            showData(currItem)
+            li.remove()
+            axios.put(`https://crudcrud.com/api/ce4d792e5eff4c31bb28133db7044be5/itemDetails/${obj._id}`,{item:currItem.item, description:currItem.description, price:currItem.price, quantity:updatedQuantity})
            })
     })
     li.appendChild(btn2)
+    btn2.addEventListener('click',()=>{
+        console.log('quantity updated')
+        axios.get(`https://crudcrud.com/api/ce4d792e5eff4c31bb28133db7044be5/itemDetails/${obj._id}`)
+        .then(res=>{
+            let currItem=res.data
+            let updatedQuantity=currItem.quantity-2
+            currItem.quantity=updatedQuantity
+            showData(currItem)
+            li.remove()
+            axios.put(`https://crudcrud.com/api/ce4d792e5eff4c31bb28133db7044be5/itemDetails/${obj._id}`,{item:currItem.item, description:currItem.description, price:currItem.price, quantity:updatedQuantity})
+           })
+    })
     li.appendChild(btn3)
+    btn3.addEventListener('click',()=>{
+        console.log('quantity updated')
+        axios.get(`https://crudcrud.com/api/ce4d792e5eff4c31bb28133db7044be5/itemDetails/${obj._id}`)
+        .then(res=>{
+            let currItem=res.data
+            let updatedQuantity=currItem.quantity-3
+            currItem.quantity=updatedQuantity
+            showData(currItem)
+            li.remove()
+            axios.put(`https://crudcrud.com/api/ce4d792e5eff4c31bb28133db7044be5/itemDetails/${obj._id}`,{item:currItem.item, description:currItem.description, price:currItem.price, quantity:updatedQuantity})
+           })
+    })
 }
